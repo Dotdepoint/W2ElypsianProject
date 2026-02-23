@@ -1,0 +1,1545 @@
+        /* 
+            CSS CUSTOM PROPERTIES (VARIABLES):
+            Defined in :root (the document root) so they're accessible everywhere.
+            This makes the design system maintainable - change a color here, 
+            it updates everywhere it's used.
+        */
+        :root {
+            /* 
+                COLOR PALETTE:
+                These hex codes are extracted from analyzing your Figma design images
+            */
+            --color-bg-primary: #0a3d3d;      /* Main dark teal background */
+            --color-bg-secondary: #0d4f4f;    /* Slightly lighter teal for cards */
+            --color-bg-tertiary: #0c4747;     /* Medium teal for hover states */
+            --color-accent: #40e0d0;          /* Bright turquoise for prices, buttons */
+            --color-accent-hover: #5ce8da;    /* Lighter turquoise for hover states */
+            --color-text-primary: #ffffff;    /* White text for headings */
+            --color-text-secondary: #a8c5c5;  /* Muted teal-gray for descriptions */
+            --color-text-muted: #6b9999;      /* Darker muted text for labels */
+            --color-border: #1a5f5f;          /* Border color for inputs and dividers */
+            --color-overlay: rgba(0, 0, 0, 0.7); /* Semi-transparent black for modals */
+            
+            /* 
+                TYPOGRAPHY SCALE:
+                Using rem units (relative to root font-size) for accessibility
+                and consistent scaling. Base is 16px (browser default).
+            */
+            --font-size-xs: 0.75rem;          /* 12px - Small labels, tags */
+            --font-size-sm: 0.875rem;         /* 14px - Body text, descriptions */
+            --font-size-base: 1rem;           /* 16px - Base size */
+            --font-size-lg: 1.125rem;         /* 18px - Subheadings */
+            --font-size-xl: 1.5rem;           /* 24px - Section titles */
+            --font-size-2xl: 2rem;            /* 32px - Large headings */
+            --font-size-3xl: 3rem;            /* 48px - Hero title */
+            
+            /* 
+                SPACING SCALE:
+                Consistent spacing using 4px base unit (0.25rem)
+            */
+            --space-1: 0.25rem;   /* 4px */
+            --space-2: 0.5rem;    /* 8px */
+            --space-3: 0.75rem;   /* 12px */
+            --space-4: 1rem;      /* 16px */
+            --space-5: 1.5rem;    /* 24px */
+            --space-6: 2rem;      /* 32px */
+            --space-8: 3rem;      /* 48px */
+            --space-10: 4rem;     /* 64px */
+            
+            /* 
+                LAYOUT VARIABLES:
+                Container widths and border radius values
+            */
+            --container-max: 1400px;          /* Maximum content width on large screens */
+            --radius-sm: 4px;                 /* Small corners (tags) */
+            --radius-md: 8px;                 /* Medium corners (buttons) */
+            --radius-lg: 12px;                /* Large corners (cards) */
+            --radius-xl: 16px;                /* Extra large corners (cart modal) */
+            
+            /* 
+                SHADOWS:
+                Subtle shadows for depth without breaking the flat design aesthetic
+            */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 
+            GLOBAL RESET:
+            The * selector targets ALL elements.
+            box-sizing: border-box makes padding and borders included in element's 
+            total width/height, simplifying layout calculations.
+            margin and padding reset removes default browser styles.
+        */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 
+            BODY STYLES:
+            Sets the base typography and background for the entire page.
+            font-family: system-ui provides native-looking fonts on each OS.
+            min-height: 100vh ensures body fills viewport even if content is short.
+        */
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;                 /* Improves readability with spacing between lines */
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased; /* Smoother text rendering on WebKit browsers */
+            -moz-osx-font-smoothing: grayscale;  /* Smoother text rendering on Firefox Mac */
+           
+        }
+
+        /* 
+            HEADER COMPONENT:
+            Fixed navigation bar at the top of the page.
+            position: sticky keeps it visible when scrolling.
+            z-index: 100 ensures it stays above other content.
+            backdrop-filter creates a frosted glass effect (blur behind header).
+        */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(10, 61, 61, 0.95); /* Semi-transparent to show blur */
+            backdrop-filter: blur(10px);              /* Frosted glass effect */
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-4) 0;
+        }
+
+        /* 
+            CONTAINER UTILITY:
+            Centers content and limits width on large screens.
+            margin: 0 auto centers the container horizontally.
+            padding provides breathing room on mobile edges.
+        */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--space-4);
+            width: 100%;
+        }
+
+        /* 
+            HEADER INNER LAYOUT:
+            Flexbox layout distributing space between logo and navigation.
+            align-items: center vertically centers items.
+            gap provides spacing between flex items.
+        */
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        /* 
+            LOGO STYLING:
+            font-weight: 700 makes text bold.
+            letter-spacing adds elegance to uppercase text.
+            font-size uses clamp() for responsive scaling between min and max values.
+        */
+        .logo {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-primary);
+            text-decoration: none;            /* Removes underline from link */
+        }
+
+        /* 
+            LOGO ACCENT:
+            Changes "COAST" portion to turquoise color using span element
+        */
+        .logo-accent {
+            color: var(--color-accent);
+        }
+
+        /* 
+            NAVIGATION LIST:
+            Removes default list styling (bullets).
+            Flex layout for horizontal navigation items.
+            display: none on mobile, shown on desktop via media query below.
+        */
+        .nav-list {
+            display: none;                    /* Hidden by default (mobile-first) */
+            list-style: none;                 /* Removes bullet points */
+            gap: var(--space-6);
+            align-items: center;
+        }
+
+        /* 
+            NAVIGATION LINKS:
+            text-decoration: none removes underlines.
+            transition creates smooth color change on hover.
+        */
+        .nav-link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s ease;      /* Smooth 0.2 second color transition */
+        }
+
+        /* 
+            NAV LINK HOVER STATE:
+            Changes color to accent when mouse hovers over link
+        */
+        .nav-link:hover {
+            color: var(--color-accent);
+        }
+
+        /* 
+            HEADER ACTIONS:
+            Container for search and cart icons on the right side.
+            Flex layout with gap for spacing between icons.
+        */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        /* 
+            ICON BUTTON:
+            Button styling for circular icon containers.
+            background: transparent shows parent background through.
+            cursor: pointer shows clickable hand cursor.
+        */
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: 50%;               /* Perfect circle */
+            transition: background-color 0.2s ease;
+            position: relative;               /* For positioning cart badge */
+        }
+
+        /* 
+            ICON BUTTON HOVER:
+            Subtle background color change on hover for feedback
+        */
+        .icon-btn:hover {
+            background-color: var(--color-bg-secondary);
+        }
+
+        /* 
+            CART BADGE:
+            Small circular indicator showing item count.
+            position: absolute positions relative to .icon-btn.
+            Negative top/right values pull it outside the button edge.
+        */
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            font-size: 0.625rem;              /* 10px - very small */
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;                    /* Flex centering for the number */
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 
+            HERO SECTION:
+            Centered text section below header.
+            text-align: center centers all inline content.
+            max-width limits line length for readability (optimal 60-75 characters).
+        */
+        .hero {
+            text-align: center;
+            padding: var(--space-10) var(--space-4);
+            max-width: 800px;
+            margin: 0 auto;
+            
+        }
+        .hero-section {
+            position: relative;
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(10, 61, 61, 0.97),
+                    rgba(10, 61, 61, 1)
+                ),
+                url('./assets/Bimage.jpg'); /* replace with correct image path */
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            padding: var(--space-10) 0;
+        }
+
+        /* 
+            SUBTITLE TEXT:
+            Small uppercase text above main title.
+            letter-spacing: 0.2em creates wide spacing for elegance.
+        */
+        .subtitle {
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        /* 
+            HERO TITLE:
+            Large serif-like heading (using system serif fonts).
+            margin-bottom creates space between title and description.
+        */
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: var(--space-4);
+            line-height: 1.2;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* 
+            HERO DESCRIPTION:
+            Muted color text with max-width for optimal reading line length.
+            margin: 0 auto centers the block element.
+        */
+        .hero-description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
+            max-width: 600px;
+            margin: 0 auto var(--space-6);
+        }
+
+        /* 
+            SEARCH BAR:
+            Container for search input with icon and button.
+            background-color slightly lighter than page background.
+            border-radius creates pill shape (fully rounded ends).
+        */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--color-bg-secondary);
+            border-radius: 50px;              /* Pill shape */
+            padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid var(--color-border);
+        }
+
+        /* 
+            SEARCH INPUT:
+            flex: 1 allows input to grow and fill available space.
+            background: transparent shows container background.
+            outline: none removes default focus ring (custom added below).
+        */
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--color-text-primary);
+            padding: var(--space-3);
+            font-size: var(--font-size-base);
+            outline: none;
+        }
+
+        /* 
+            SEARCH INPUT PLACEHOLDER:
+            Styles the placeholder text color.
+            opacity: 1 ensures consistent color across browsers.
+        */
+        .search-input::placeholder {
+            color: var(--color-text-muted);
+            opacity: 1;
+        }
+
+        /* 
+            SEARCH BUTTON:
+            Background accent color with primary background text.
+            padding provides clickable area.
+            font-weight: 600 makes text semi-bold.
+        */
+        .search-btn {
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            padding: var(--space-3) var(--space-5);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color 0.2s ease;
+        }
+
+        /* 
+            SEARCH BUTTON HOVER:
+            Lightens background color on hover for feedback
+        */
+        .search-btn:hover {
+            background-color: var(--color-accent-hover);
+        }
+
+        /* 
+            MAIN LAYOUT:
+            CSS Grid layout for desktop: menu on left, cart on right.
+            grid-template-columns defines two columns: 1fr (flexible) and 350px (fixed).
+            gap creates space between columns.
+            align-items: start prevents columns from stretching to equal height.
+        */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--space-4) var(--space-10);
+        }
+
+        /* 
+            CATEGORY TABS:
+            Horizontal scrollable container for filter buttons.
+            overflow-x: auto allows horizontal scrolling on mobile.
+            -webkit-overflow-scrolling: touch provides smooth scrolling on iOS.
+            position: relative for positioning the fade gradient.
+        */
+        .category-tabs {
+        display: flex;
+            gap: var(--space-2);
+            align-items: center;
+            margin-bottom: var(--space-6);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: var(--space-2);   /* Space for scrollbar */
+            position: relative;
+            
+        }
+
+        /* 
+            Hide scrollbar visually but keep functionality:
+            -ms-overflow-style for IE/Edge
+            scrollbar-width for Firefox
+            ::-webkit-scrollbar for Chrome/Safari
+        */
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+        .category-tabs::-webkit-scrollbar-track {
+            background: var(--color-bg-secondary);
+        }
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 2px;
+        }
+
+        /* 
+            TAB BUTTON:
+            Individual filter buttons.
+            white-space: nowrap prevents text wrapping.
+            flex-shrink: 0 prevents buttons from shrinking in flex container.
+        */
+        .tab-btn {
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-secondary);
+            padding: var(--space-2) var(--space-4);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* 
+            TAB BUTTON ACTIVE STATE:
+            Applied via JavaScript when tab is selected.
+            background-color fills button with accent color.
+            color changes to dark background color for contrast.
+            border-color matches background.
+        */
+        .tab-btn.active {
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border-color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        /* 
+            TAB BUTTON HOVER (NON-ACTIVE):
+            Subtle background change on hover for inactive tabs
+        */
+        .tab-btn:not(.active):hover {
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+        }
+
+        /* 
+            SECTION HEADER:
+            Flex container for section title and item count.
+            justify-content: space-between pushes items to edges.
+            border-bottom creates subtle separator line.
+        */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--space-5);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--space-3);
+        }
+
+        /* 
+            SECTION TITLE:
+            Large heading for menu section.
+        */
+        .section-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* 
+            ITEM COUNT:
+            Small muted text showing number of items.
+        */
+        .item-count {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* 
+            MENU GRID:
+            CSS Grid for menu item cards.
+            repeat(auto-fill) creates as many columns as fit.
+            minmax(280px, 1fr) ensures cards are at least 280px wide.
+            gap provides spacing between cards.
+        */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-5);
+        }
+
+        /* 
+            MENU CARD:
+            Individual food item container.
+            background-color slightly lighter than page.
+            overflow: hidden clips child elements to border radius.
+            transition creates smooth lift effect on hover.
+        */
+        .menu-card {
+            background-color: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 
+            MENU CARD HOVER:
+            Slight lift effect with shadow for depth perception
+        */
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* 
+            CARD IMAGE CONTAINER:
+            Aspect ratio maintained via padding-bottom technique.
+            position: relative for positioning price badge absolutely.
+            overflow: hidden clips image to container bounds.
+        */
+        .card-image {
+            position: relative;
+            width: 100%;
+            padding-bottom: 60%;              /* 16:10 aspect ratio approximation */
+            overflow: hidden;
+            background-color: var(--color-bg-tertiary);
+        }
+
+        /* 
+            CARD IMAGE ITSELF:
+            position: absolute fills the container completely.
+            object-fit: cover maintains aspect ratio while filling space.
+            transition creates smooth zoom effect on hover.
+        */
+        .card-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        /* 
+            IMAGE ZOOM ON HOVER:
+            Scales image up slightly when card is hovered
+        */
+        .menu-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        /* 
+            PRICE BADGE:
+            Absolute positioned over image.
+            top and left position it in the corner.
+            background-color uses accent color.
+            z-index: 1 ensures it appears above the image.
+        */
+        .price-badge {
+            position: absolute;
+            top: var(--space-3);
+            left: var(--space-3);
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: var(--font-size-sm);
+            z-index: 1;
+        }
+
+        /* 
+            CARD CONTENT:
+            Padding around text content.
+            flex: 1 allows content to grow and push footer down.
+            display: flex with column direction for vertical layout.
+        */
+        .card-content {
+            padding: var(--space-4);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 
+            CARD TITLE:
+            Food item name.
+            margin-bottom creates space before description.
+        */
+        .card-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* 
+            CARD DESCRIPTION:
+            Muted text, limited to 2 lines via line-clamp.
+            flex: 1 pushes footer to bottom of card.
+            margin-bottom creates space before footer.
+        */
+        .card-description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+            margin-bottom: var(--space-4);
+            flex: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+
+            overflow: hidden;
+            
+            /* 
+                LINE CLAMPING:
+                Limits text to 2 lines with ellipsis.
+                display: -webkit-box enables box-oriented layout.
+                -webkit-line-clamp: 2 limits to 2 lines.
+                -webkit-box-orient: vertical stacks lines vertically.
+                overflow: hidden clips excess text.
+            */
+         
+        }
+
+        /* 
+            CARD FOOTER:
+            Flex container for category tag and add button.
+            justify-content: space-between pushes items apart.
+            align-items: center vertically centers them.
+            margin-top: auto ensures footer stays at bottom.
+        */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        /* 
+            CATEGORY TAG:
+            Small pill-shaped label indicating food category.
+            text-transform: uppercase for consistency.
+            letter-spacing adds elegance to small text.
+        */
+        .category-tag {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        /* 
+            ADD BUTTON:
+            Circular button with plus icon.
+            width and height create perfect circle.
+            display: flex centers the plus icon.
+        */
+        .add-btn {
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        /* 
+            ADD BUTTON HOVER:
+            Background fills with accent color on hover
+        */
+        .add-btn:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-bg-primary);
+        }
+
+        /* 
+            CART SIDEBAR (DESKTOP):
+            Sticky positioning keeps cart visible while scrolling menu.
+            position: sticky with top value creates sticky effect.
+            align-self: start prevents grid stretching.
+            height: fit-content makes container only as tall as content.
+        */
+        .cart-sidebar {
+            display: none;                    /* Hidden on mobile by default */
+            position: sticky;
+            top: 100px;                       /* Below header + some space */
+            align-self: start;
+            height: fit-content;
+        }
+
+        /* 
+            CART CONTAINER:
+            Background and border styling for cart panel.
+        */
+        .cart-container {
+            background-color: var(--color-bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            border: 1px solid var(--color-border);
+        }
+
+        /* 
+            CART HEADER:
+            Flex container for cart title and secure badge.
+            margin-bottom creates space before items list.
+        */
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-5);
+        }
+
+        /* 
+            CART TITLE:
+            "Your Selection" heading with icon.
+        */
+        .cart-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* 
+            SECURE BADGE:
+            Small pill indicating secure checkout.
+        */
+        .secure-badge {
+            font-size: var(--font-size-xs);
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 
+            CART SUBTITLE:
+            Muted text below title.
+        */
+        .cart-subtitle {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: var(--space-1);
+        }
+
+        /* 
+            CART ITEMS LIST:
+            Vertical stack of cart items.
+            gap provides spacing between items.
+            margin-bottom creates space before summary.
+            max-height limits height with scroll if too many items.
+        */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+            margin-bottom: var(--space-5);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* 
+            INDIVIDUAL CART ITEM:
+            Grid layout: image | details | price.
+            grid-template-columns defines three columns.
+            align-items: center vertically centers content.
+            padding-bottom and border create separator between items.
+        */
+        .cart-item {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            gap: var(--space-3);
+            align-items: center;
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* 
+            Remove border from last cart item
+        */
+        .cart-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 
+            CART ITEM IMAGE:
+            Small thumbnail image.
+            object-fit: cover maintains aspect ratio.
+        */
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background-color: var(--color-bg-tertiary);
+        }
+
+        /* 
+            CART ITEM DETAILS:
+            Flex column for name and quantity controls.
+        */
+        .cart-item-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        /* 
+            CART ITEM NAME:
+            Small bold text for item name.
+        */
+        .cart-item-name {
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+        }
+
+        /* 
+            QUANTITY CONTROLS:
+            Flex container for minus/quantity/plus buttons.
+            background slightly darker for contrast.
+            border-radius creates pill shape.
+        */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            background-color: var(--color-bg-primary);
+            border-radius: var(--radius-md);
+            padding: var(--space-1);
+            width: fit-content;
+        }
+
+        /* 
+            QUANTITY BUTTON:
+            Small circular buttons for +/-.
+            disabled state styling for when quantity is 1 (can't go lower).
+        */
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-lg);
+            transition: all 0.2s ease;
+        }
+
+        /* 
+            QUANTITY BUTTON HOVER:
+            Background change on hover if not disabled
+        */
+        .qty-btn:hover:not(:disabled) {
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+        }
+
+        /* 
+            DISABLED STATE:
+            Reduced opacity and no pointer events when button is disabled
+        */
+        .qty-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* 
+            QUANTITY DISPLAY:
+            The number between +/- buttons.
+            min-width ensures consistent width for single/double digits.
+            text-align: center centers the number.
+        */
+        .qty-display {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        /* 
+            CART ITEM PRICE:
+            Accent color for price.
+            font-weight: 700 makes it bold.
+        */
+        .cart-item-price {
+            color: var(--color-accent);
+            font-weight: 700;
+            font-size: var(--font-size-sm);
+        }
+
+        /* 
+            REMOVE BUTTON:
+            Small trash icon button.
+            opacity: 0.6 makes it subtle by default.
+        */
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: var(--space-1);
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+
+        /* 
+            REMOVE BUTTON HOVER:
+            Full opacity on hover for visibility
+        */
+        .remove-btn:hover {
+            opacity: 1;
+            color: #ff6b6b;                   /* Subtle red tint for delete action */
+        }
+
+        /* 
+            CART SUMMARY:
+            Border-top separates from items list.
+            padding-top creates space after border.
+        */
+        .cart-summary {
+            border-top: 1px solid var(--color-border);
+            padding-top: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        /* 
+            SUMMARY ROW:
+            Flex container for label and amount.
+            margin-bottom creates space between rows.
+        */
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-sm);
+        }
+
+        /* 
+            SUMMARY LABEL:
+            Muted text for "Subtotal", "Tax", etc.
+        */
+        .summary-label {
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 
+            SUMMARY AMOUNT:
+            Standard text color for amounts.
+        */
+        .summary-amount {
+            color: var(--color-text-primary);
+            font-weight: 600;
+        }
+
+        /* 
+            TOTAL ROW:
+            Larger text for final total.
+            margin-top creates space before total.
+            padding-top and border separate from subrows.
+        */
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* 
+            TOTAL LABEL:
+            "The Total" text styling.
+        */
+        .total-label {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* 
+            TOTAL AMOUNT:
+            Large accent-colored price.
+        */
+        .total-amount {
+            font-size: var(--font-size-xl);
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        /* 
+            CHECKOUT BUTTON:
+            Full-width accent button.
+            width: 100% fills container width.
+            display: flex centers content.
+            gap creates space between text and arrow.
+        */
+        .checkout-btn {
+            width: 100%;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            transition: background-color 0.2s ease;
+            margin-bottom: var(--space-3);
+        }
+
+        /* 
+            CHECKOUT BUTTON HOVER:
+            Lightens background on hover.
+            transform provides subtle press effect.
+        */
+        .checkout-btn:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* 
+            CHECKOUT BUTTON ACTIVE:
+            Slight scale down when clicked for tactile feedback
+        */
+        .checkout-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 
+            SECURE TEXT:
+            Small centered text below checkout button.
+        */
+        .secure-text {
+            text-align: center;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* 
+            EMPTY CART STATE:
+            Centered content when no items in cart.
+            padding creates vertical space.
+            text-align: center centers text.
+        */
+        .empty-cart {
+            text-align: center;
+            padding: var(--space-8) var(--space-4);
+            color: var(--color-text-muted);
+        }
+
+        /* 
+            EMPTY CART ICON:
+            Large icon/text for empty state.
+            margin-bottom creates space before text.
+            opacity makes it subtle.
+        */
+        .empty-cart-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-3);
+            opacity: 0.3;
+        }
+
+        /* 
+            FOOTER:
+            Darker background section at bottom.
+            margin-top: auto pushes footer to bottom on short pages.
+        */
+        .footer {
+            background-color: #072e2e;        /* Darker than main background */
+            padding: var(--space-10) 0;
+            margin-top: auto;
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* 
+            FOOTER GRID:
+            Responsive grid for footer columns.
+            repeat(auto-fit) creates responsive columns.
+        */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        /* 
+            FOOTER BRAND:
+            Logo and description column.
+        */
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        /* 
+            FOOTER LOGO:
+            Same styling as header logo but larger.
+        */
+        .footer-logo {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-3);
+            display: inline-block;
+        }
+
+        /* 
+            FOOTER DESCRIPTION:
+            Muted text for brand description.
+        */
+        .footer-description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+
+        /* 
+            SOCIAL LINKS:
+            Flex container for social media icons.
+            gap provides spacing between icons.
+        */
+        .social-links {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        /* 
+            SOCIAL ICON:
+            Circular button for social links.
+        */
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--color-border);
+        }
+
+        /* 
+            SOCIAL ICON HOVER:
+            Background and color change on hover.
+        */
+        .social-icon:hover {
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border-color: var(--color-accent);
+        }
+
+        /* 
+            FOOTER LINKS COLUMN:
+            Individual link sections (Curation, Concierge).
+        */
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        /* 
+            FOOTER HEADING:
+            Column title in footer.
+        */
+        .footer-heading {
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        /* 
+            FOOTER LINK:
+            Individual link styling.
+        */
+        .footer-link {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: color 0.2s ease;
+        }
+
+        /* 
+            FOOTER LINK HOVER:
+            Color change to accent on hover.
+        */
+        .footer-link:hover {
+            color: var(--color-accent);
+        }
+
+        /* 
+            FOOTER BOTTOM:
+            Copyright and legal links.
+            flex-direction: column stacks on mobile.
+            text-align: center centers content.
+        */
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-muted);
+        }
+
+        /* 
+            FOOTER LEGAL LINKS:
+            Flex container for Privacy, Terms links.
+        */
+        .footer-legal {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+        }
+
+        /* 
+            MOBILE CART MODAL:
+            Fixed position overlay for mobile cart view.
+            position: fixed covers entire viewport.
+            z-index: 200 ensures it's above everything.
+            display: none hidden by default, shown via JS.
+        */
+        .mobile-cart-modal {
+            display: none;                    /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 200;
+        }
+
+        /* 
+            MODAL ACTIVE STATE:
+            display: flex when active class added via JavaScript.
+            flex-direction: column stacks overlay and panel.
+        */
+        .mobile-cart-modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 
+            MODAL OVERLAY:
+            Semi-transparent background behind modal.
+            flex: 1 allows it to fill available space above panel.
+        */
+        .modal-overlay {
+            flex: 1;
+            background-color: var(--color-overlay);
+            backdrop-filter: blur(4px);       /* Blur content behind modal */
+        }
+
+        /* 
+            MOBILE CART PANEL:
+            Slides up from bottom on mobile.
+            border-radius only on top corners.
+            max-height: 90vh prevents covering entire screen.
+            overflow-y: auto allows scrolling within panel.
+        */
+        .mobile-cart-panel {
+            background-color: var(--color-bg-secondary);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: var(--space-5);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;     /* Entry animation defined below */
+        }
+
+        /* 
+            SLIDE UP ANIMATION:
+            Keyframes for modal entry animation.
+            from: translateY(100%) starts off-screen below.
+            to: translateY(0) ends at normal position.
+        */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* 
+            MODAL HEADER:
+            Flex container for title and close button.
+            margin-bottom creates space before items.
+        */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-5);
+        }
+
+        /* 
+            CLOSE BUTTON:
+            Circular button for closing modal.
+        */
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        /* 
+            CLOSE BUTTON HOVER:
+            Background and color change on hover.
+        */
+        .close-btn:hover {
+            background-color: var(--color-bg-tertiary);
+            color: var(--color-text-primary);
+        }
+
+        /* 
+            MOBILE FLOATING CART BUTTON:
+            Fixed position button at bottom of screen.
+            position: fixed positions relative to viewport.
+            bottom and right position it in corner.
+            z-index: 50 ensures it's above content but below modal.
+            display: flex on mobile, hidden on desktop.
+        */
+        .mobile-cart-btn {
+            display: flex;                    /* Shown on mobile */
+            position: fixed;
+            bottom: var(--space-4);
+            right: var(--space-4);
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            padding: var(--space-3) var(--space-5);
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            align-items: center;
+            gap: var(--space-2);
+            box-shadow: var(--shadow-lg);
+            z-index: 50;
+            transition: transform 0.2s ease;
+        }
+
+        /* 
+            MOBILE CART BUTTON HOVER/ACTIVE:
+            Scale effects for tactile feedback.
+        */
+        .mobile-cart-btn:hover {
+            transform: scale(1.05);
+        }
+        .mobile-cart-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 
+            HIDDEN UTILITY CLASS:
+            display: none !important overrides other display properties.
+            !important ensures this takes precedence.
+        */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 
+            ========================================
+            MEDIA QUERIES - RESPONSIVE BREAKPOINTS
+            ========================================
+            These rules only apply when conditions are met (screen width).
+            Mobile-first approach: base styles are mobile, these enhance for desktop.
+        */
+
+        /* 
+            TABLET BREAKPOINT (768px and up):
+            Shows navigation menu and adjusts grid.
+        */
+        @media (min-width: 768px) {
+            /* Show navigation list on tablet/desktop */
+            .nav-list {
+                display: flex;
+            }
+            
+            /* Adjust footer grid to 2 columns */
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+            
+            /* Footer bottom row layout */
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            
+            /* Legal links align right */
+            .footer-legal {
+                justify-content: flex-end;
+            }
+        }
+
+        /* 
+            DESKTOP BREAKPOINT (1024px and up):
+            Shows cart sidebar and adjusts main layout.
+        */
+        @media (min-width: 1024px) {
+            /* 
+                MAIN LAYOUT GRID:
+                Two columns: menu (flexible) and cart (350px fixed).
+            */
+            .main-layout {
+                grid-template-columns: 1fr 350px;
+            }
+            
+            /* Show cart sidebar on desktop */
+            .cart-sidebar {
+                display: block;
+            }
+            
+            /* Hide mobile floating cart button */
+            .mobile-cart-btn {
+                display: none;
+            }
+            
+            /* Hide mobile cart modal trigger (desktop uses sidebar) */
+            .mobile-cart-modal {
+                display: none !important;
+            }
+            
+            /* Adjust menu grid for more columns with extra space */
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 
+            LARGE DESKTOP BREAKPOINT (1280px and up):
+            More menu columns with extra space.
+        */
+        @media (min-width: 1280px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }

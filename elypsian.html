@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+        META TAGS EXPLANATION:
+        charset="UTF-8" - Specifies the character encoding for the document, 
+        allowing special characters and emojis to render correctly
+        viewport - Critical for responsive design: sets width to device width and 
+        initial zoom level to 1.0, preventing mobile browsers from zooming out
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 
+        TITLE TAG:
+        Sets the text that appears in the browser tab and search engine results
+    -->
+    <title>Elysian Coast | Coastal Fine Dining</title>
+    
+    <!-- 
+        STYLE SECTION:
+        Contains all CSS rules for styling the application.
+        Using CSS custom properties (variables) for consistent theming
+    -->
+    
+    <link rel="stylesheet", href="./style.css"/>
+</head>
+<body>
+    <!-- 
+        HEADER SECTION:
+        Contains logo, navigation, and action buttons (search, cart).
+        Semantic <header> tag for accessibility and SEO.
+    -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <!-- 
+                    LOGO LINK:
+                    Anchor tag linking to home (href="#").
+                    Span with class logo-accent colors part of the text differently.
+                -->
+                <a href="#" class="logo">
+                    Elysian<span class="logo-accent">Coast</span>
+                </a>
+
+                <!-- 
+                    NAVIGATION:
+                    Semantic <nav> for accessibility.
+                    aria-label helps screen readers identify navigation purpose.
+                -->
+                <nav aria-label="Main navigation">
+                    <ul class="nav-list">
+                        <!-- Individual nav items -->
+                        <li><a href="#" class="nav-link">Home</a></li>
+                        <li><a href="#" class="nav-link">About Us</a></li>
+                        <li><a href="#" class="nav-link">Reserve</a></li>
+                        <li><a href="#" class="nav-link">Journal</a></li>
+                    </ul>
+                </nav>
+
+                <!-- 
+                    HEADER ACTIONS:
+                    Container for utility buttons (search, cart).
+                -->
+                <div class="header-actions">
+                    <!-- Search icon button -->
+                    <button class="icon-btn" aria-label="Search">
+                        <!-- SVG search icon -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- 
+                        Cart icon button:
+                        Contains badge showing item count.
+                        data-count attribute used by JS to update display.
+                    -->
+                    <button class="icon-btn cart-toggle" aria-label="Cart">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        <!-- Cart badge - hidden when empty via JS -->
+                        <span class="cart-badge hidden" id="headerCartBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 
+        HERO SECTION:
+        Introductory content with title, description, and search.
+        Semantic <section> with aria-label for accessibility.
+    -->
+    <section class="hero-section">
+      <div class="hero" aria-label="Introduction">
+        <!-- Subtitle with decorative spacing -->
+        <p class="subtitle">Coastal Fine Dining • Est 2024</p>
+        
+        <!-- Main title -->
+        <h1 class="hero-title">Elysian Eats</h1>
+        
+        <!-- Description paragraph -->
+        <p class="hero-description">
+            Epicurean treasures from the abyss, served in the heart of the coast.
+        </p>
+        
+        <!-- 
+            SEARCH BAR:
+            Form element for semantic correctness.
+            role="search" helps assistive technologies identify purpose.
+        -->
+        <form class="search-bar" role="search">
+            <!-- Search icon SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.5;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            
+            <!-- 
+                SEARCH INPUT:
+                type="search" provides clear button in some browsers.
+                placeholder provides hint text.
+                aria-label describes input purpose.
+            -->
+            <input 
+                type="search" 
+                class="search-input" 
+                placeholder="Search culinary delights..." 
+                aria-label="Search menu"
+            >
+            
+            <!-- Submit button -->
+            <button type="submit" class="search-btn">Explore</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 
+        MAIN CONTENT:
+        Contains menu grid and cart sidebar.
+        Semantic <main> indicates primary content area.
+    -->
+    <main class="main-layout">
+        <!-- 
+            MENU SECTION:
+            Contains category tabs and food item cards.
+        -->
+        <section aria-label="Menu">
+            <!-- 
+                CATEGORY TABS:
+                Button group for filtering menu items by category.
+                role="tablist" indicates tab interface to screen readers.
+            -->
+            <div class="category-tabs" role="tablist" aria-label="Menu categories">
+                <!-- 
+                    TAB BUTTONS:
+                    data-category attribute stores category value for JS filtering.
+                    aria-selected indicates active state to screen readers.
+                -->
+                <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">All</button>
+                <button class="tab-btn" data-category="starters" role="tab" aria-selected="false">Starters</button>
+                <button class="tab-btn" data-category="mains" role="tab" aria-selected="false">Mains</button>
+                <button class="tab-btn" data-category="desserts" role="tab" aria-selected="false">Desserts</button>
+                <button class="tab-btn" data-category="drinks" role="tab" aria-selected="false">Drinks</button>
+            </div>
+
+            <!-- Section header with title and dynamic item count -->
+            <div class="section-header">
+                <h2 class="section-title">Chef's Selections</h2>
+                <span class="item-count">Curating <span id="itemCount">10</span> delicacies</span>
+            </div>
+
+            <!-- 
+                MENU GRID:
+                Container for menu item cards.
+                JS will populate this with items from menuData array.
+            -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- 
+            CART SIDEBAR (DESKTOP):
+            Sticky sidebar showing selected items.
+            aria-label describes purpose for screen readers.
+            Hidden on mobile via CSS media queries.
+        -->
+        <aside class="cart-sidebar" aria-label="Shopping cart">
+            <div class="cart-container">
+                <!-- Cart header with title and secure badge -->
+                <div class="cart-header">
+                    <div>
+                        <h2 class="cart-title">
+                            <!-- Clipboard icon SVG -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                            Your Selection
+                        </h2>
+                        <p class="cart-subtitle">Coastal Vault Ordering</p>
+                    </div>
+                    <span class="secure-badge">Secure</span>
+                </div>
+
+                <!-- 
+                    CART ITEMS CONTAINER:
+                    Dynamic content populated by JavaScript.
+                    Shows empty state or list of items.
+                -->
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items injected here by JavaScript -->
+                </div>
+
+                <!-- 
+                    CART SUMMARY:
+                    Shows subtotal, tax, and total.
+                    Hidden when cart is empty via JS.
+                -->
+                <div id="cartSummary" class="cart-summary hidden">
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal</span>
+                        <span class="summary-amount" id="subtotal">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Marine Tax</span>
+                        <span class="summary-amount" id="tax">$0</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">The Total</span>
+                        <span class="total-amount" id="total">$0</span>
+                    </div>
+                </div>
+
+                <!-- 
+                    CHECKOUT BUTTON:
+                    Hidden when cart is empty.
+                    Calls checkout function when clicked.
+                -->
+                <button id="checkoutBtn" class="checkout-btn hidden" onclick="handleCheckout()">
+                    Check Out
+                    <!-- Arrow icon SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+
+                <!-- Secure payment text -->
+                <p id="secureText" class="secure-text hidden">White Glove Service Included</p>
+
+                <!-- 
+                    EMPTY CART STATE:
+                    Shown when no items in cart.
+                    Hidden via JS when items exist.
+                -->
+                <div id="emptyCart" class="empty-cart">
+                    <div class="empty-cart-icon">🍽️</div>
+                    <p>Your selection awaits</p>
+                    <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">Add items from the menu</p>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 
+        MOBILE CART MODAL:
+        Slide-up panel for cart on mobile devices.
+        Hidden by default, shown via JS when cart button clicked.
+        role="dialog" indicates modal dialog to screen readers.
+        aria-modal="true" prevents interaction with background.
+    -->
+    <div class="mobile-cart-modal" id="mobileCartModal" role="dialog" aria-modal="true" aria-label="Your order">
+        <!-- 
+            MODAL OVERLAY:
+            Clicking this closes the modal (handled by JS).
+        -->
+        <div class="modal-overlay" onclick="closeMobileCart()"></div>
+        
+        <!-- 
+            MOBILE CART PANEL:
+            Contains same content as desktop sidebar but styled for mobile.
+        -->
+        <div class="mobile-cart-panel">
+            <!-- Modal header with close button -->
+            <div class="modal-header">
+                <h2 class="cart-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    Your Order
+                </h2>
+                <!-- Close button -->
+                <button class="close-btn" onclick="closeMobileCart()" aria-label="Close cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile cart items (separate container from desktop) -->
+            <div id="mobileCartItems" class="cart-items" style="margin-bottom: var(--space-4);">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Mobile cart summary -->
+            <div id="mobileCartSummary" class="cart-summary hidden">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal</span>
+                    <span class="summary-amount" id="mobileSubtotal">$0</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Gratuity (15%)</span>
+                    <span class="summary-amount" id="mobileGratuity">$0</span>
+                </div>
+                <div class="total-row">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="mobileTotal">$0</span>
+                </div>
+            </div>
+
+            <!-- Mobile checkout button -->
+            <button id="mobileCheckoutBtn" class="checkout-btn hidden" onclick="handleCheckout()">
+                Place Order
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+            
+            <p id="mobileSecureText" class="secure-text hidden">Elysian Pay Secure</p>
+
+            <!-- Mobile empty state -->
+            <div id="mobileEmptyCart" class="empty-cart" style="padding: var(--space-6) 0;">
+                <div class="empty-cart-icon">🍽️</div>
+                <p>Your order is empty</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        MOBILE FLOATING CART BUTTON:
+        Fixed position button to open cart on mobile.
+        Hidden on desktop via CSS.
+    -->
+    <button class="mobile-cart-btn" id="mobileCartBtn" onclick="openMobileCart()">
+        <!-- Cart icon -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span id="mobileCartText">Cart</span>
+        <!-- Item count badge -->
+        <span id="mobileCartCount" style="background: var(--color-bg-primary); color: var(--color-accent); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 4px;">0</span>
+    </button>
+
+    <!-- 
+        FOOTER SECTION:
+        Contains brand info, links, and copyright.
+        Semantic <footer> tag.
+    -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Footer content grid -->
+            <div class="footer-grid">
+                <!-- Brand column -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        Elysian<span class="logo-accent">Coast</span>
+                    </div>
+                    <p class="footer-description">
+                        Defining the pinnacle of coastal gastronomy. Every dish is a dialogue between the depths of the ocean and the height of culinary art.
+                    </p>
+                    <!-- Social media links -->
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Curation links column -->
+                <div class="footer-links">
+                    <h3 class="footer-heading">Curation</h3>
+                    <a href="#" class="footer-link">Private Vault</a>
+                    <a href="#" class="footer-link">Coastal Gallery</a>
+                    <a href="#" class="footer-link">Reservations</a>
+                    <a href="#" class="footer-link">The Experience</a>
+                </div>
+
+                <!-- Concierge links column -->
+                <div class="footer-links">
+                    <h3 class="footer-heading">Concierge</h3>
+                    <p class="footer-link" style="margin-bottom: 0.5rem;">123 Serene Inlet, Pearl Bay</p>
+                    <a href="mailto:concierge@elysiancoast.com" class="footer-link" style="color: var(--color-accent);">concierge@elysiancoast.com</a>
+                    <p class="footer-link" style="margin-top: 0.5rem;">+1 (555) COAST-99</p>
+                </div>
+            </div>
+
+            <!-- Footer bottom bar -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Elysian Hospitality Group. A Legacy of Elegance.</p>
+                <div class="footer-legal">
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 
+        JAVASCRIPT SECTION:
+        All application logic for cart functionality, filtering, and UI updates.
+        Placed at end of body so DOM is fully loaded before scripts run.
+    -->
+    <script src="./index.js"> </script>
+</body>
+</html>
